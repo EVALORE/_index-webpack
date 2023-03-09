@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
+  "extends": "stylelint-config-standard-scss",
+=======
   "extends": "stylelint-config-sass-guidelines",
+>>>>>>> 34c7eb1d49c932e7f5853ea19f8c33b4878ae9f4
   "ignoreFiles": [
     "public/**/*.css"
   ]
