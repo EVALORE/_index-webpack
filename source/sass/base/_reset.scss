@@ -74,11 +74,7 @@ img {
   max-width: 100%;
 }
 
-<<<<<<< HEAD
 /* Указываем понятную периодичность в потоке данных у article */
-=======
-/* Указываем понятную периодичность в потоке данных у article*/
->>>>>>> 34c7eb1d49c932e7f5853ea19f8c33b4878ae9f4
 article > * + * {
   margin-top: 1em;
 }
@@ -100,16 +96,3 @@ select {
     transition-duration: 0.01ms !important;
   }
 }
-<<<<<<< HEAD
-=======
-
-/* Удаление дополнительных стилей */
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  border: 0;
-}
->>>>>>> 34c7eb1d49c932e7f5853ea19f8c33b4878ae9f4

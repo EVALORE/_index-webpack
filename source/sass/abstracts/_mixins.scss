@@ -1,20 +1,12 @@
 // adaptive media
 @mixin media($type, $breakpoint) {
-<<<<<<< HEAD
   @if $type == max {
-=======
-  @if $type==max {
->>>>>>> 34c7eb1d49c932e7f5853ea19f8c33b4878ae9f4
     @media screen and (max-width: $breakpoint) {
       @content;
     }
   }
-<<<<<<< HEAD
 
   @if $type == min {
-=======
-  @if $type==min {
->>>>>>> 34c7eb1d49c932e7f5853ea19f8c33b4878ae9f4
     @media screen and (min-width: $breakpoint) {
       @content;
     }
