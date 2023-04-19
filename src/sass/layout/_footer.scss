@@ -1,0 +1,10 @@
+@use "../abstracts" as *;
+@use "../base" as *;
+
+.footer {
+  .container {
+    display: flex;
+    gap: 4rem;
+    justify-content: space-between;
+  }
+}

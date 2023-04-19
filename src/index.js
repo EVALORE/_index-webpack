@@ -1,4 +1,4 @@
-import './sass';
+import './sass/index.scss';
 
 function component(text) {
   const element = document.createElement('h1');

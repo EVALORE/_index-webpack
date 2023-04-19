@@ -1,0 +1,36 @@
+// main font
+@font-face {
+  font-family: Georgia;
+  font-weight: 400;
+  font-style: normal;
+  src: url("../../assets/fonts/georgia/georgia-regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: Georgia;
+  font-weight: 400;
+  font-style: italic;
+  src: url("../../assets/fonts/georgia/georgia-italic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: Georgia;
+  font-weight: 700;
+  font-style: normal;
+  src: url("../../assets/fonts/georgia/georgia-bold.ttf") format("truetype");
+}
+
+// additional fonts
+@font-face {
+  font-family: Arial;
+  font-weight: 400;
+  font-style: normal;
+  src: url("../../assets/fonts/arial/arial-regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: Arial;
+  font-weight: 400;
+  font-style: italic;
+  src: url("../../assets/fonts/arial/arial-italic.ttf") format("truetype");
+}

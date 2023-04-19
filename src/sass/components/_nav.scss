@@ -1,0 +1,10 @@
+@use "../abstracts" as *;
+
+.nav {
+  flex: 0 1 44.3rem;
+
+  &__list {
+    display: flex;
+    justify-content: space-between;
+  }
+}

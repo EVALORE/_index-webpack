@@ -1,192 +1,170 @@
-const CopyPlugin = require("copy-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
-const ESLintWebpackPlugin = require("eslint-webpack-plugin");
-const StylelintWebpackPlugin = require("stylelint-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
-const production = process.env.NODE_ENV === "production";
+module.exports = (env, node) => {
+  // set mode in dependency of env mode
+  const isProd = node.nodeEnv === "production";
 
-let mode = "development";
-let target = "web";
-let devtool = "source-map";
+  // specify file format
+  const filename = (ext) =>
+    isProd ? `[name].[contenthash].${ext}` : `[name].${ext}`;
 
-if (production) {
-  mode = "production";
-  target = "browserslist";
-  devtool = false;
-}
+  // max size for inline asset
+  const sizeLimit = {
+    images: 8192,
+    fonts: 8192
+  }
 
-const filename = (ext) =>
-  production ? `[name].[contenthash].bundle.${ext}` : `[name].bundle.${ext}`;
+  const paths = {
+    source: path.resolve(__dirname, "src"),
+    output: path.resolve(__dirname, "dist")
+  }
 
-module.exports = {
-  // режим сборки
-  mode,
+  return {
+    // set mode in witch will run webpack
+    mode: isProd ? "production" : "development",
+    // set source map for dev
+    devtool: isProd ? false : "inline-source-map",
+    // specify the environment target
+    target: isProd ? "browserslist" : "web",
 
-  target,
-
-  // определяет стиль карт ресурсов (source maps)
-  devtool,
-
-  // определяет настройки для webpack-dev-server
-  devServer: {
-    // "горячая" замена модулей
-    hot: true,
-    // открыть браузер после начала обслуживания файлов
-    open: true,
-    // порт
-    port: 3000,
-    liveReload: false,
-    client: {
-      // отключение логов состояния
-      logging: "none",
-      // отключение оверлея
-      overlay: false,
+    // webpack-dev-server configuration
+    devServer: {
+      // open default browser on run
+      open: true,
+      // serve static files from path
+      static: { directory: path.join(__dirname, "dist") },
+      // allow to open serve on any device
+      host: "local-ip",
     },
-    // хост
-    host: "local-ip",
-  },
 
-  // определяет контекст сборки - основную директорию
-  context: path.resolve(__dirname, "source"),
+    // root path for files
+    context: paths.source,
 
-  // входная точка
-  entry: path.resolve(__dirname, "source", "index.js"),
-
-  // определяет директорию, в которую помещаются файлы сборки.
-  output: {
-    // путь к директории
-    path: path.resolve(__dirname, "public"),
-    // очистка директории
-    clean: true,
-    // названия файлов
-    filename: filename("js"),
-    assetModuleFilename: "[file]",
-  },
-
-  // настройка плагинов
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "source", "index.html"),
-    }),
-    new MiniCssExtractPlugin({
-      filename: filename("css"),
-    }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, "source", "assets", "json"),
-          to: path.resolve(__dirname, "public/assets/json"),
-        },
-        {
-          from: path.resolve(__dirname, "source", "assets", "sounds"),
-          to: path.resolve(__dirname, "public", "assets", "sounds"),
-        },
-      ],
-    }),
-    new ESLintWebpackPlugin(),
-    new StylelintWebpackPlugin(),
-  ],
-
-  //
-  resolve: {
-    // расширения по умолчанию
-    extensions: [".js", ".json", ".scss"],
-  },
-
-  optimization: {
-    splitChunks: {
-      chunks: "all",
+    // entry points for every page
+    entry: {
+      main: path.resolve(paths.source, "main", "index.js"),
+      pets: path.resolve(paths.source, "pets", "index.js"),
     },
-    minimize: production,
-    minimizer: [
-      new CssMinimizerPlugin(),
+
+    // output settings
+    output: {
+      // clean dist on start if is prod
+      clean: isProd,
+      // create async chunks that are loaded on demand
+      asyncChunks: true,
+      // output bundle filename
+      filename: filename("js"),
+      // general file path & format
+      assetModuleFilename: "[file]",
+      // specify where to place your build
+      path: path.resolve(__dirname, "dist"),
+      // literally specify how to start every path
+      publicPath: isProd ? "./" : "auto",
+    },
+
+    // performance threshold configuration values
+    performance: {
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000,
+    },
+
+    plugins: [
+      new HtmlWebpackPlugin({
+        // set page title
+        title: "main",
+        // specify witch entry points to use
+        chunks: ["main"],
+        // output filename
+        filename: "index.html",
+        template: path.resolve(paths.source, "main", "index.html"),
+      }),
+      new HtmlWebpackPlugin({
+        // set page title
+        title: "pets",
+        // specify witch entry points to use
+        chunks: ["pets"],
+        // output filename
+        filename: "pets.html",
+        template: path.resolve(paths.source, "pets", "index.html"),
+      }),
+      new MiniCssExtractPlugin({
+        filename: filename("css"),
+      }),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, "src", "assets", "favicon.ico"),
+            to: path.resolve(__dirname, "dist", "assets", "favicon.ico"),
+          },
+          {
+            from: path.resolve(__dirname, "src", "assets", "json", "pets.json"),
+            to: path.resolve(__dirname, "dist", "assets", "json", "pets.json"),
+          },
+        ],
+      }),
       new TerserPlugin({
         terserOptions: {
-          format: {
-            comments: false,
+          // compress output js files on prod
+          compress: isProd,
+        },
+      }),
+    ],
+
+    module: {
+      rules: [
+        {
+          test: /\.html$/i,
+          loader: "html-loader",
+        },
+        {
+          test: /\.js$/,
+          include: path.resolve(__dirname, "src"),
+          use: {
+            loader: "babel-loader",
           },
         },
-        extractComments: false,
-      }),
-      new HtmlMinimizerPlugin(),
-    ],
-  },
-
-  // обработка файлов
-  module: {
-    rules: [
-      {
-        test: /\.html$/i,
-        loader: "html-loader",
-      },
-      {
-        // поиск файлов
-        test: /\.(c|sa|sc)ss$/i,
-        // порядок работы снизу-вверх
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: { publicPath: "" },
-          },
-          "css-loader",
-          "postcss-loader",
-          "sass-loader",
-        ],
-      },
-      {
-        test: /\.(png|jpe?g|webp|gif|svg)$/i,
-        use: [
-          {
-            loader: "image-webpack-loader",
-            options: {
-              mozjpeg: {
-                progressive: true,
-              },
-              // optipng.enabled: false will disable optipng
-              optipng: {
-                enabled: false,
-              },
-              pngquant: {
-                quality: [0.65, 0.9],
-                speed: 4,
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              // the webp option will enable WEBP
-              webp: {
-                quality: 75,
-              },
+        {
+          test: /\.(png|jpe?g|gif|webp|svg)$/i,
+          type: "asset",
+          parser: {
+            dataUrlCondition: {
+              maxSize: sizeLimit.images,
             },
           },
-        ],
-        // способ загрузки
-        type: "asset/resource",
-      },
-      {
-        test: /\.(ttf|woff|woff2|eot)$/i,
-        type: "asset/resource",
-      },
-      {
-        test: /\.(js)$/i,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
         },
-      },
-      {
-        test: /\.json$/i,
-        type: "json",
-      },
-      {
-        test: /\.(mp3)$/i,
-        type: "asset/resource",
-      },
-    ],
-  },
+        {
+          test: /\.(ttf|woff|woff2|eot)$/i,
+          type: "asset",
+          parser: {
+            dataUrlCondition: {
+              maxSize: sizeLimit.fonts,
+            },
+          },
+        },
+        {
+          test: /\.(s(a|c)ss|css)$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+            },
+            "css-loader",
+            "postcss-loader",
+            {
+              loader: "resolve-url-loader",
+            },
+            {
+              loader: "sass-loader",
+              options: {
+                sourceMap: true,
+              },
+            },
+          ],
+        },
+      ],
+    },
+  };
 };
