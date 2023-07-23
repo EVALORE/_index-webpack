@@ -1,0 +1,26 @@
+{
+  "extends": [
+    "./tsconfig.checks.json",
+    "./tsconfig.paths.json",
+  ],
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ES6",
+    "moduleResolution": "Node",
+    "baseUrl": "./",
+    "outDir": "./dist/",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "checkJs": true,
+    "resolveJsonModule": true,
+  },
+  "include": [
+    "./src/**/*",
+    "./tests/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
