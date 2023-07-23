@@ -1,6 +1,6 @@
 import './style.scss';
 
-const index = 'los';
+const index = 'lost';
 
 function lol() {
   console.log(index);
