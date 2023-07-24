@@ -41,6 +41,6 @@ no_console () {
 ### RUN THROUGH CHECKS AND STOP IF THERE IS A PROBLEM
 run_linter
 check_branch
-# no_console
+no_console
 
 printf "${GREEN}Proceeding with commit...${NC}\n"
