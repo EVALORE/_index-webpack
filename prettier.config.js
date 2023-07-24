@@ -4,5 +4,4 @@ module.exports = {
   semi: true,
   insert_new_line: true,
   singleQuote: true,
-  arrowParens: 'avoid',
 };

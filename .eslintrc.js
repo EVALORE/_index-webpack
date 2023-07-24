@@ -4,11 +4,7 @@ module.exports = {
     es2021: true,
   },
   root: true,
-  extends: [
-    'airbnb-base',
-    'eslint:recommended',
-    'plugin:import/recommended',
-  ],
+  extends: ['airbnb-base', 'eslint:recommended', 'plugin:import/recommended'],
   overrides: [
     {
       files: ['**/*.ts'],

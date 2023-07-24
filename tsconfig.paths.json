@@ -2,12 +2,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "assets/*": [
-        "./public/*"
-      ]
+      "assets/*": ["./public/*"]
     }
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

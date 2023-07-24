@@ -1,27 +1,35 @@
 {
   "name": "webpack",
-  "version": "2.0.1",
+  "version": "2.1.1",
   "description": "webpack 5 template",
-    "keywords": [
-      "webpack",
-      "template",
-      "typescript",
-      "javascript",
-      "webpack5",
-      "boilerplate"
-    ],
-    "author": "EVALORE",
-    "license": "ISC",
+  "keywords": [
+    "webpack",
+    "template",
+    "typescript",
+    "javascript",
+    "webpack5",
+    "boilerplate"
+  ],
+  "author": "EVALORE",
+  "license": "ISC",
   "scripts": {
     "dev": "webpack serve --node-env development -c config/webpack.dev.js",
     "prod": "webpack --node-env production -c config/webpack.prod.js",
-    "stylelint": "stylelint \"app/**/*.scss\" --fix",
-    "eslint": "eslint \"src/**/*.ts\" --fix"
+    "stylelint": "stylelint \"src/**/*.{css,sass,scss}\" --fix",
+    "eslint": "eslint \"src/**/*.{ts,js}\" --fix",
+    "prepare": "husky install"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "dependencies": {
     "copy-webpack-plugin": "^11.0.0",
+    "eslint-webpack-plugin": "^4.0.1",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
+    "stylelint-webpack-plugin": "^4.1.1",
     "webpack-merge": "^5.9.0"
   },
   "devDependencies": {
@@ -31,15 +39,20 @@
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
     "babel-loader": "^9.1.3",
+    "commitizen": "^4.3.0",
     "css-loader": "^6.8.1",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.3",
     "postcss": "^8.4.27",
     "postcss-loader": "^7.3.3",
     "postcss-preset-env": "^9.0.0",
+    "prettier": "3.0.0",
     "sass": "^1.64.1",
     "sass-loader": "^13.3.2",
     "stylelint": "^15.10.2",
